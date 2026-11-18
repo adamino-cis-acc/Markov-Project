@@ -10,6 +10,8 @@ int buildMarkovChain(const string words[], int numWords, int order,
 std::string getRandomSuffix(const std::string prefixes[], const std::string suffixes[],
                             int chainSize, std::string currentPrefix);
 std::string getRandomPrefix(const std::string prefixes[], int chainSize);
+std::string generateText(const std::string prefixes[], const std::string suffixes[],
+                         int chainSize, int order, int numWords);
 
 
 

@@ -88,4 +88,46 @@ string getRandomPrefix(const std::string prefixes[], int chainSize){
     
 }
 
+string generateText(const std::string prefixes[], const std::string suffixes[], int chainSize, int order, int numWords){
+
+    if(chainSize <= 0 || (order < 1 && order > 3) || numWords < order) {
+        return "";
+    } 
+
+    string currentPrefix = getRandomPrefix(prefixes, chainSize);
+    string result = currentPrefix;
+    string currentWords[3];
+    int wordIndex = 0;
+    string temp= "";
+    for(int i = 0; i < currentPrefix.length(); ++i){
+        if(currentPrefix[i] ==  ' '){
+            currentWords[wordIndex] = temp;
+            wordIndex++;
+            temp = "";
+        } else {
+            temp+= currentPrefix[i];
+        }
+    }
+    currentWords[wordIndex] = temp;
+
+    for(int i =0; i < numWords - order; ++i){
+        string newWord = getRandomSuffix(prefixes, suffixes, chainSize, currentPrefix);
+        if(newWord == ""){
+            break;
+        }
+        result += " " + newWord;
+        for(int j =0; j < order - 1; ++j){
+            currentWords[j] = currentWords[j + 1];
+        }
+        currentWords[order - 1] = newWord;
+        currentPrefix = joinWords(currentWords, 0, order);
+    }
+
+    return result; 
+
+    
+
+}
+
+
 
