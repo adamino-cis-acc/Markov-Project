@@ -6,31 +6,36 @@ using namespace std;
 
 int main(){
     srand(time(0));
-    string words[1000];
-    int count = readWordsFromFile("test.txt", words, 1000);
-    cout << "Read " << count << " words" << std::endl;
-    cout<< '\n';
-    for (int i = 0; i < 10 && i < count; i++) {
-        cout << words[i] << endl;
+    string fileName;
+    int order;
+    int maxWords;
+    cout << "Enter file name: ";
+    cin >> fileName;
+    cout <<"Enter the order between 1 and 3: ";
+    cin >> order;
+    while(1 > order || 3 < order) {
+        cout << "Order must a number ranging from 1 to 3" << '\n';
+        cout <<"Enter the order between 1 and 3: ";
+        cin >> order;
     }
-    cout<< '\n';
-    std::string prefixes[1000], suffixes[1000];
-    int chainSize = buildMarkovChain(words, count, 1, prefixes, suffixes, 1000);
-    for (int i = 0; i < 20 && i < chainSize; i++) {
-        std::cout << "[" << prefixes[i] << "] -> [" << suffixes[i] << "]" << std::endl;
+    cout << "Enter the maximum amount of words: ";
+    cin >> maxWords;
+    string words[maxWords], prefixes[maxWords], suffixes[maxWords];
+    int count = readWordsFromFile(fileName, words, 1000);
+    if(count == -1){
+        cout << "Couldn't Open File";
     }
-    cout<< '\n';
-    for (int i = 0; i < 10; i++) {
-        std::cout << getRandomSuffix(prefixes, suffixes, chainSize, "The") << std::endl;
+    if(count <= order){
+        cout << "Minimum " << order + 1 << " training words are needed." << endl;
     }
-    cout<< '\n';
-    for (int i = 0; i < 5; i++) {
-        std::cout << getRandomPrefix(prefixes, chainSize) << std::endl;
-    }
-    cout<< '\n';
-    std::string output = generateText(prefixes, suffixes, chainSize, 1, 20);
-    std::cout << output << std::endl;
 
+    int chainSize = buildMarkovChain(words, count, order, prefixes, suffixes, maxWords);
+    if(count == maxWords){
+        cout << "Only used the first " << maxWords << " words of the input text" << endl;
+    }
+
+    string markov = generateText(prefixes, suffixes, chainSize, order, maxWords);
+    cout << markov << endl;
 
 
     return 0;

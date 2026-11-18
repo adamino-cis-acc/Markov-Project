@@ -90,7 +90,7 @@ string getRandomPrefix(const std::string prefixes[], int chainSize){
 
 string generateText(const std::string prefixes[], const std::string suffixes[], int chainSize, int order, int numWords){
 
-    if(chainSize <= 0 || (order < 1 && order > 3) || numWords < order) {
+    if(chainSize <= 0 || (order < 1 || order > 3) || numWords < order) {
         return "";
     } 
 
